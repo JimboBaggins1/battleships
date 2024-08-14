@@ -1,21 +1,22 @@
 {
-  "name": "template-repo",
+  "name": "battleships",
   "version": "1.0.0",
-  "description": "Basic template repo",
+  "description": "Battleships game",
   "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "webpack --watch",
     "start": "webpack serve --open",
     "build": "webpack",
-    "deploy": "git subtree push --prefix dist origin gh-pages"
+    "deploy": "git subtree push --prefix dist origin gh-pages",
+    "test": "jest"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@babel/core": "^7.24.8",
-    "@babel/preset-env": "^7.24.8",
+    "@babel/core": "^7.25.2",
+    "@babel/preset-env": "^7.25.3",
+    "babel-jest": "^29.7.0",
     "babel-loader": "^9.1.3",
     "css-loader": "^7.1.1",
     "csv-loader": "^3.0.5",
