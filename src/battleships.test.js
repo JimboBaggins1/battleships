@@ -51,9 +51,18 @@ test('Gameboard class - place ship', () => {
 //     expect(() => board.place([0, 0], [0, 6])).toThrow(Error);
 //     expect(() => board.place([0, 0], [1, 0])).toThrow(Error);
 // });
-
+test('Ship class - each ship has unique id', () => {
+    const ship1 = new Ship(3);
+    const ship2 = new Ship(2);
+    console.log(ship1.id);
+    console.log(ship2.id);
+    expect(ship1.id).not.toBeNull();
+    expect(ship2.id).not.toBeNull();
+    expect(ship2.id).not.toEqual(ship1.id);
+})
 // test('Gameboard class - receive attack', () => {
 //     const board = new Gameboard();
-//     board.place([0, 0], [4, 0]);
-//     board.receiveAttack([])
+//     board.place([0, 0], new Ship(3), 'n');
+//     board.receiveAttack([0, 1]);
+
 // })
