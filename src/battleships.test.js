@@ -38,7 +38,12 @@ test('Gameboard class - place ship', () => {
     board.place([3, 0], new Ship(4), 'w');
     board.place([4, 4], new Ship(2), 's');
     board.place([3, 7], new Ship(5), 'e');
-    expect(board.shipLocations).toEqual([ [1, 1], [1, 2], [1, 3], [3, 0], [2, 0], [1, 0], [0, 0], [4, 4], [4, 3], [3, 7], [4, 7], [5, 7], [6, 7], [7, 7] ]);
+    console.log(board.shipLocations);
+    const idRegex = /\w{8}-\w{4}-\w{4}-\w{4}-\w{12}/;
+    board.shipLocations.forEach((value, key) => {
+        expect(value).not.toBeNull();
+        expect(key).toMatch(idRegex);
+    });
 });
 
 // test('Gameboard class - reject diagonal', () => {

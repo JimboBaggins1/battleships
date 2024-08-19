@@ -1,6 +1,6 @@
 export class Gameboard {
     constructor() {
-        this.shipLocations = [];
+        this.shipLocations = new Map();
     }
 
     // static #MAX_SHIP_LENGTH = 5;
@@ -88,6 +88,6 @@ export class Gameboard {
                 break;
         };
 
-        return this.shipLocations.push(...shipCoords);
+        return this.shipLocations.set(ship.id, shipCoords);
     }
 }
