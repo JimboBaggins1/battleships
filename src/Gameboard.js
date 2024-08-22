@@ -96,4 +96,33 @@ export class Gameboard {
 
         return this.shipLocations.set(ship.id, shipCoords);
     }
+
+    // receives attack and checks if ship has been hit
+    receiveAttack(coords) {
+        let isHit = false;
+        let hitShipId = null;
+        // loop through shipLocations to see if ship has been hit
+        this.shipLocations.forEach((value, key) => {
+            value.forEach(subArr => {
+                if (subArr.length === coords.length && subArr.every((elem, index) => elem === coords[index])) {
+                    isHit = true;
+                    hitShipId = key;
+                };
+            });
+        });
+        if (isHit) {
+            this.activeShips.forEach(ship => {
+                if (ship.id === hitShipId) {
+                    ship.hit();
+                    if (ship.isSunk()) {
+                        this.destroyedShips.add(ship);
+                        this.activeShips.delete(ship);
+                        if (this.allShipsSunk) console.log('Game over');
+                    }
+                };
+            });
+        } else {
+            this.missedShots.push(coords);
+        };
+    }
 }
