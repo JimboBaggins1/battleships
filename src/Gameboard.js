@@ -1,3 +1,4 @@
+import { Ship } from "./Ship";
 export class Gameboard {
     constructor() {
         this.shipLocations = new Map();
@@ -65,8 +66,10 @@ export class Gameboard {
 
 
     // places ships at start of game
-    place(start, ship, direction = 'e') {
+    place(start, length, direction = 'e') {
         let shipCoords = [];
+        let ship = new Ship(length);
+        this.activeShips.add(ship);
         let dist = ship.length - 1;
         switch (direction) {
             case 'e':
