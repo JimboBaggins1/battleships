@@ -125,4 +125,8 @@ export class Gameboard {
             this.missedShots.push(coords);
         };
     }
+
+    allShipsSunk () {
+        return this.activeShips.size === 0;
+    }
 }
