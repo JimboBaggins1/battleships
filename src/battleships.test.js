@@ -34,10 +34,10 @@ test('Ship class - ship has been sunk', () => {
 // GAMEBOARD TESTS
 test('Gameboard class - place ship', () => {
     const board = new Gameboard();
-    board.place([1, 1], new Ship(3), 'n');
-    board.place([3, 0], new Ship(4), 'w');
-    board.place([4, 4], new Ship(2), 's');
-    board.place([3, 7], new Ship(5), 'e');
+    board.place([1, 1], 3, 'n');
+    board.place([3, 0], 4, 'w');
+    board.place([4, 4], 2, 's');
+    board.place([3, 7], 5, 'e');
     console.log(board.shipLocations);
     const idRegex = /\w{8}-\w{4}-\w{4}-\w{4}-\w{12}/;
     board.shipLocations.forEach((value, key) => {
