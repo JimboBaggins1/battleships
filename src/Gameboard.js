@@ -1,6 +1,9 @@
 export class Gameboard {
     constructor() {
         this.shipLocations = new Map();
+        this.activeShips = new Set();
+        this.destroyedShips = new Set();
+        this.missedShots = [];
     }
 
     // static #MAX_SHIP_LENGTH = 5;
