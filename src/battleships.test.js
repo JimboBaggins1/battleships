@@ -64,10 +64,46 @@ test('Ship class - each ship has unique id', () => {
     expect(ship1.id).not.toBeNull();
     expect(ship2.id).not.toBeNull();
     expect(ship2.id).not.toEqual(ship1.id);
-})
-// test('Gameboard class - receive attack', () => {
-//     const board = new Gameboard();
-//     board.place([0, 0], new Ship(3), 'n');
-//     board.receiveAttack([0, 1]);
+});
 
-// })
+test('Gameboard class - receive attack', () => {
+    const board = new Gameboard();
+    board.place([0, 0], 3, 'n');
+    let ship = board.activeShips.keys().next().value;
+    board.receiveAttack([0, 1]);
+    expect(ship.hits).toBe(1);
+    expect(ship.isSunk()).toBe(false);
+});
+
+test('Gameboard class - sink ship', () => {
+    const board = new Gameboard();
+    board.place([0, 0], 2, 'n');
+    let ship = board.activeShips.keys().next().value;
+    board.receiveAttack([0, 1]);
+    board.receiveAttack([0, 0]);
+    expect(ship.hits).toBe(2);
+    expect(ship.isSunk()).toBe(true);
+});
+
+test('Gameboard class - missed shots', () => {
+    const board = new Gameboard();
+    board.place([0, 0], 2, 'n');
+    board.receiveAttack([1, 1]);
+    board.receiveAttack([1, 0]);
+    expect(board.missedShots).toEqual([[1, 1], [1, 0]]);
+});
+
+test('Gameboard class - all ships sunk', () => {
+    const board = new Gameboard();
+    board.place([0, 0], 2, 'n');
+    board.place([6, 5], 3, 's');
+    board.receiveAttack([0, 1]);
+    board.receiveAttack([0, 0]);
+    board.receiveAttack([6, 5]);
+    board.receiveAttack([6, 4]);
+    board.receiveAttack([6, 3]);
+    board.destroyedShips.forEach(ship => {
+        expect(ship.isSunk()).toBe(true);
+    });
+    expect(board.activeShips.length).toBeUndefined();
+});
