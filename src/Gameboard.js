@@ -5,6 +5,7 @@ export class Gameboard {
         this.activeShips = new Set();
         this.destroyedShips = new Set();
         this.missedShots = [];
+        this.hitShots = [];
     }
 
     // static #MAX_SHIP_LENGTH = 5;
@@ -77,7 +78,7 @@ export class Gameboard {
                     shipCoords.push([i, start[1]]);
                 };
                 break;
-            case 's':
+            case 'n':
                 for (let i = start[1]; i >= start[1] - dist; i--) {
                     shipCoords.push([start[0], i]);
                 };
@@ -87,7 +88,7 @@ export class Gameboard {
                     shipCoords.push([i, start[1]]);
                 };
                 break;
-            case 'n':
+            case 's':
                 for (let i = start[1]; i <= start[1] + dist; i++) {
                     shipCoords.push([start[0], i]);
                 };
@@ -107,6 +108,7 @@ export class Gameboard {
                 if (subArr.length === coords.length && subArr.every((elem, index) => elem === coords[index])) {
                     isHit = true;
                     hitShipId = key;
+                    this.hitShots.push(coords);
                 };
             });
         });
@@ -117,7 +119,7 @@ export class Gameboard {
                     if (ship.isSunk()) {
                         this.destroyedShips.add(ship);
                         this.activeShips.delete(ship);
-                        if (this.allShipsSunk) console.log('Game over');
+                        if (this.allShipsSunk()) console.log('Game over');
                     }
                 };
             });
