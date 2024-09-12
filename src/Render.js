@@ -80,6 +80,7 @@ export class Render {
         for (let i = 0; i < Render.#BOARD_SIZE; i++) {
             let square = document.createElement('div');
             square.classList.add('square');
+            square.classList.add('player-square');
             square.setAttribute('id', i);
             myBoard.appendChild(square);
         };
