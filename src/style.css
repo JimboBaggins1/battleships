@@ -4,7 +4,25 @@
 .container {
     display: grid;
     grid-template-columns: 2fr 3fr 3fr;
+    grid-template-rows: 4fr 1fr
 }
+
+.cursorDisabled {
+    cursor: not-allowed;
+}
+.buttons {
+    grid-column: 3 / 4;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+#start-btn, #reset-btn {
+    height: 50px;
+    width: 200px;
+    margin: 20px;
+}
+
+#start-btn { grid-column: 1 / 2; }
+#reset-btn { grid-column: 2 / 3; }
 
 #my-board, #enemy-board {
     display: inline-grid;
@@ -26,11 +44,6 @@
     position: relative;
 }
 
-.square:hover {
-    /* background-color: lightgrey; */
-    /* opacity: 0.2; */
-}
-
 .active {
     background-color: green;
 }
@@ -48,6 +61,7 @@
     display: inline-block;
     /* position: absolute; */
 }
+
 #ship1 {
     height: calc(65px * 4);
     width: 25px;
