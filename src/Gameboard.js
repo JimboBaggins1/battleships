@@ -6,6 +6,8 @@ export class Gameboard {
         this.destroyedShips = new Set();
         this.missedShots = [];
         this.hitShots = [];
+        this.shipBuilder = [['ship1', new Ship(4)], ['ship2', new Ship(3)], ['ship3', new Ship(3)], ['ship4', new Ship(2)], ['ship5', new Ship(2)], ['ship6', new Ship(2)], ['ship7', new Ship(1)], ['ship8', new Ship(1)], ['ship9', new Ship(1)], ['ship10', new Ship(1)]];
+        this.harbour = new Map(this.shipBuilder);
     }
 
     // static #MAX_SHIP_LENGTH = 5;
@@ -67,35 +69,69 @@ export class Gameboard {
 
 
     // places ships at start of game
-    place(start, length, direction = 'e') {
-        let shipCoords = [];
-        let ship = new Ship(length);
-        this.activeShips.add(ship);
-        let dist = ship.length - 1;
-        switch (direction) {
-            case 'e':
-                for (let i = start[0]; i <= start[0] + dist; i++) {
-                    shipCoords.push([i, start[1]]);
-                };
-                break;
-            case 'n':
-                for (let i = start[1]; i >= start[1] - dist; i--) {
-                    shipCoords.push([start[0], i]);
-                };
-                break;
-            case 'w':
-                for (let i = start[0]; i >= start[0] - dist; i--) {
-                    shipCoords.push([i, start[1]]);
-                };
-                break;
-            case 's':
-                for (let i = start[1]; i <= start[1] + dist; i++) {
-                    shipCoords.push([start[0], i]);
-                };
-                break;
-        };
+    place(shipElem, start, direction = 'e') {
+      // console.log(this.harbour);
+      let shipCoords = [];
+      let shipOverlap = false;
+      // let ship = new Ship(length);
+      // get ship
+      const ship = this.harbour.get(shipElem);
+      
 
+      let dist = ship.length - 1;
+      switch (direction) {
+        case "horizontal":
+          for (let i = start[0]; i <= start[0] + dist; i++) {
+            this.shipLocations.forEach((value, key) => {
+              if (key !== ship.id && value.some((a) => [i, start[1]].every((v, i) => v === a[i])))
+                shipOverlap = true;
+            });
+            if (shipOverlap) break;
+            shipCoords.push([i, start[1]]);
+          }
+          break;
+        case "n":
+          for (let i = start[1]; i >= start[1] - dist; i--) {
+            this.shipLocations.forEach((value, key) => {
+              if (key !== ship.id && value.some((a) => [start[0], i].every((v, i) => v === a[i])))
+                shipOverlap = true;
+            });
+            if (shipOverlap) break;
+            shipCoords.push([start[0], i]);
+          }
+          break;
+        case "w":
+          for (let i = start[0]; i >= start[0] - dist; i--) {
+            this.shipLocations.forEach((value, key) => {
+              if (key !== ship.id && value.some((a) => [i, start[1]].every((v, i) => v === a[i])))
+                shipOverlap = true;
+            });
+            if (shipOverlap) break;
+            shipCoords.push([i, start[1]]);
+          }
+          break;
+        case "vertical":
+          for (let i = start[1]; i <= start[1] + dist; i++) {
+            this.shipLocations.forEach((value, key) => {
+              if (key !== ship.id && value.some((a) => [start[0], i].every((v, i) => v === a[i])))
+                shipOverlap = true;
+            });
+            if (shipOverlap) break;
+            shipCoords.push([start[0], i]);
+          }
+          break;
+      }
+
+      // check if ships overlap
+      if (shipOverlap || shipCoords.flat().some(a => a > 9)) {
+        // direction === 'e' ? this.place(shipElem, start, 's') : this.place(shipElem, start, 'e');
+        return null;
+      } else {
+        // check if player is relocating ship that is already on the board
+        if (this.shipLocations.has(ship.id)) this.shipLocations.delete(ship.id);
+        this.activeShips.add(ship);
         return this.shipLocations.set(ship.id, shipCoords);
+      }
     }
 
     // receives attack and checks if ship has been hit
@@ -130,5 +166,14 @@ export class Gameboard {
 
     allShipsSunk () {
         return this.activeShips.size === 0;
+    }
+
+    getShipId(shipKey) {
+        const ship = this.harbour.get(shipKey);
+        if (this.shipLocations.has(ship.id)) {
+            return ship.id;
+        } else {
+            return null;
+        }
     }
 }
