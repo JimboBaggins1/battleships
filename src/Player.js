@@ -4,4 +4,8 @@ export class Player {
         this.isComputer = isComputer;
         this.gameboard = new Gameboard;
     }
+
+    resetBoard() {
+        this.gameboard = new Gameboard;
+    }
 }
